@@ -19,25 +19,59 @@ Maria Schmitz;Kölner Straße 45;50123 Köln;43
 Paul Meier;Münchener Weg 1;87654 München;65
 ".SplitByString(Environment.NewLine);
 
-            var result = Tabelliere(CSV_zeilen);
+            var lines = Tablelize(CSV_zeilen);
 
-            foreach (var row in result)
-            {
-                Console.WriteLine(row);
-            }
+            PrintLines(lines);
 
             
         }
 
-        public static IEnumerable<string> Tabelliere(IEnumerable<string> CSV_zeilen)
+        /// <summary>
+        /// Print the lines of an IEnumerable of String.
+        /// </summary>
+        /// <param name="lines">The lines to Print</param>
+        private static void PrintLines(IEnumerable<string> linesToPrint)
         {
-            var rows = CSV_zeilen.ToArray();
-            
-            for (int i = 0; i < rows.Length; i++)
+            foreach (var line in linesToPrint)
             {
-                var cols = rows[i].SplitByString(";").ToArray();
+                Console.WriteLine(line);
+            }
+        }
 
-                colummnValues ??= new string[rows.Length, cols.Length];
+        /// <summary>
+        /// Converts an IEnumerable of strings (with CSV-Content) to an IEnumerable list of pretty padded lines.
+        /// </summary>
+        /// <param name="csvContent">The csv lines to be padded</param>
+        /// <returns>A IEnumerable of strings containing the padded content from the csv lines.</returns>
+        public static IEnumerable<string> Tablelize(IEnumerable<string> csvContent)
+        {
+            var result = BuildArrayFromCsvLines(csvContent);
+
+            var paddedLines = BuildPaddedListFromArrayElements(
+                result.valueArray, 
+                result.widthArray);
+
+            return paddedLines;
+        }
+
+        /// <summary>
+        /// Extracts a 2 dimensional value array and an array with the widths of each column.
+        /// </summary>
+        /// <param name="csvLines">The lines with the csv content</param>
+        /// <returns>Tuple of values [0] valueArray [1] columnWidthArray</returns>
+        private static (string[,] valueArray, int[] widthArray) BuildArrayFromCsvLines(IEnumerable<string> csvContent)
+        {
+            var csvLines = csvContent.ToArray();
+
+            string[,] colummnValues = null;
+            int[] columnWidths = null;
+
+            for (int i = 0; i < csvLines.Length; i++)
+            {
+                var cols = csvLines[i].SplitByString(";").ToArray();
+
+                // create 2 dimensional array
+                colummnValues ??= new string[csvLines.Length, cols.Length];
                 columnWidths ??= new int[cols.Length];
 
                 for (int j = 0; j < cols.Length; j++)
@@ -47,23 +81,24 @@ Paul Meier;Münchener Weg 1;87654 München;65
                 }
             }
 
+            return (colummnValues, columnWidths);
+        }
+
+        private static List<string> BuildPaddedListFromArrayElements(string[,] columnValues, int[] columnWidths)
+        {
             List<string> result = new List<string>();
-            for (int i = 0; i < rows.Length; i++)
+            for (int i = 0; i < columnValues.GetLength(0); i++)
             {
                 string line = "|";
                 for (int j = 0; j < columnWidths.Length; j++)
                 {
-                    line += colummnValues[i, j].PadRight(columnWidths[j]) + "|";
+                    line += columnValues[i, j].PadRight(columnWidths[j]) + "|";
                 }
+
                 result.Add(line);
             }
 
-
-
             return result;
         }
-
-
-
     }
 }
