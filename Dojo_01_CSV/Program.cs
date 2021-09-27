@@ -66,14 +66,4 @@ Paul Meier;Münchener Weg 1;87654 München;65
 
 
     }
-
-    public static class ExtensionMethods
-    {
-        public static IEnumerable<string> SplitByString(this string s, string splitString)
-        {
-            string[] values = s.Split(new[] { splitString }, StringSplitOptions.RemoveEmptyEntries);
-
-            return values.ToList();
-        }
-    }
 }
