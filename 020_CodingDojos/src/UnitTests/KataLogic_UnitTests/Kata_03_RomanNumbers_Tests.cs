@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Common.ExtensionMethods;
 using KataLogic.KataLogic;
 using NUnit.Framework;
@@ -7,12 +8,42 @@ namespace KataLogic_UnitTests
     public class Kata_03_RomanNumbers_Tests
     {
         private Kata_03_RomanNumerals m_CodingKata;
+        private Dictionary<string, int> m_TestCases;
 
 
         [SetUp]
         public void Setup()
         {
             m_CodingKata = new Kata_03_RomanNumerals();
+            m_TestCases = new Dictionary<string, int>
+            {
+            
+                {"MMDCXCVIII", 2698},
+                {"I", 1},
+                {"II", 2},
+                {"XVI", 16},
+                {"CML", 950},
+            };
+        }
+
+        [Test]
+        public void Test_TestCases()
+        {
+            foreach (var key in m_TestCases.Keys)
+            {
+                m_CodingKata.SetContent(key);
+                m_CodingKata.Execute();
+                var value = m_CodingKata.Result.UnboxAs<int>();
+                Assert.AreEqual(m_TestCases[key], value);
+            }
+        }
+
+        [Test]
+        public void Test_Single()
+        {
+            m_CodingKata.SetContent("MMDCXCVIII");
+            m_CodingKata.Execute();
+            Assert.AreEqual(2698, m_CodingKata.Result.UnboxAs<int>());
         }
 
         [Test]
@@ -78,8 +109,6 @@ namespace KataLogic_UnitTests
             m_CodingKata.Execute();
             Assert.AreEqual(2013, m_CodingKata.Result.UnboxAs<int>());
         }
-
-
 
         [Test]
         public void Test_IIX()

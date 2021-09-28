@@ -17,6 +17,7 @@ namespace KataLogic.KataLogic
         public Action<char> m_ProcessState;
         public Dictionary<char, int> m_NumberValues;
         public int m_LastIndex = -1;
+        public int? m_LastSubtractedIndex;
 
 
 
@@ -53,6 +54,8 @@ namespace KataLogic.KataLogic
         public void SetContent(object content)
         {
             m_RomanNumber = content.UnboxAs<string>();
+            m_Result = 0;
+            m_LastIndex = -1;
         }
 
         public void Execute()
@@ -62,7 +65,14 @@ namespace KataLogic.KataLogic
                 var c = m_RomanNumber[i];
                 if (m_LastIndex <= m_NumberIndices[c])
                 {
+                    if (m_LastSubtractedIndex.HasValue && m_LastSubtractedIndex == m_NumberIndices[c])
+                    {
+                        m_Result = -1;
+                        break;
+                    }
+
                     m_Result += m_NumberValues[c];
+                    m_LastSubtractedIndex = null;
                 }
                 else
                 {
@@ -71,8 +81,9 @@ namespace KataLogic.KataLogic
                         m_Result = -1;
                         break;
                     }
-                    
+
                     m_Result -= m_NumberValues[c];
+                    m_LastSubtractedIndex = m_NumberIndices[c];
                 }
 
                 m_LastIndex = m_NumberIndices[c];
