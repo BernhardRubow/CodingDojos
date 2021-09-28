@@ -18,5 +18,10 @@ namespace Common.ExtensionMethods
 
             return values.ToList();
         }
+
+        public static T UnboxAs<T>(this object o)
+        {
+            return ((T) o);
+        }
     }
 }

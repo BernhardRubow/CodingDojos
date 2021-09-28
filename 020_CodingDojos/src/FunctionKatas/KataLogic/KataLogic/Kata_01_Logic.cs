@@ -1,47 +1,77 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Common.ExtensionMethods;
 using KataLogic.Interfaces;
 
-namespace KataLogic.Kata_01_CSV
+namespace KataLogic.KataLogic
 {
-    public  class CSV_Helper : ICodingKata
+    public  class Kata_01_Logic : ICodingKata
     {
+        // +++ fields +++
+        private List<string> m_PaddedLines;
         private IEnumerable<string> m_CsvRows;
+        private object m_Result;
+
+
+        // +++ properties +++
+        public List<string> paddedLines => m_PaddedLines;
+
+
+
 
         // +++ life cycle +++
-        public CSV_Helper()
+        public Kata_01_Logic()
         {
             // Default Content
-            m_CsvRows = @"
+            var csv = @"
 Name;Strasse;Ort;Alter
 Peter Pan;Am Hang 5;12345 Einsam;42
 Maria Schmitz;Kölner Straße 45;50123 Köln;43
 Paul Meier;Münchener Weg 1;87654 München;65
-".SplitByString(Environment.NewLine);
+";
+
+            SetContent(csv);
         }
+
+
+
 
         // +++ ICodingKata Implementation +++
-        public void Execute()
-        {
-            var lines = Tablelize(m_CsvRows);
+        public object Result => m_Result;
 
-            PrintLines(lines);
+        public void SetContent(object content)
+        {
+            m_CsvRows = content
+                .UnboxAs<string>()
+                .SplitByString(Environment.NewLine);
         }
 
-        // +++ member +++
+        public void Execute()
+        {
+            var lines  = Tablelize(m_CsvRows);
 
+            m_Result = PrintLines(lines);
+        }
+
+
+
+
+        // +++ member +++
         /// <summary>
         /// Print the lines of an IEnumerable of String.
         /// </summary>
         /// <param name="lines">The lines to Print</param>
-        private void PrintLines(IEnumerable<string> linesToPrint)
+        private string PrintLines(IEnumerable<string> linesToPrint)
         {
+            var sb = new StringBuilder();
             foreach (var line in linesToPrint)
             {
-                Console.WriteLine(line);
+                sb.AppendLine(line);
             }
+
+            return sb.ToString();
         }
 
         /// <summary>
@@ -53,7 +83,7 @@ Paul Meier;Münchener Weg 1;87654 München;65
         {
             var result = BuildArrayFromCsvLines(csvContent);
 
-            var paddedLines = BuildPaddedListFromArrayElements(
+            m_PaddedLines = BuildPaddedListFromArrayElements(
                 result.valueArray,
                 result.widthArray);
 
