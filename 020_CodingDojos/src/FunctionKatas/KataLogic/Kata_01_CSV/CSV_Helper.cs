@@ -1,36 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
+using Common.ExtensionMethods;
+using KataLogic.Interfaces;
 
-namespace Dojo_01_CSV
+namespace KataLogic.Kata_01_CSV
 {
-    class Program
+    public  class CSV_Helper : ICodingKata
     {
-        private static string[,] colummnValues = null;
-        private static int[] columnWidths = null;
+        private IEnumerable<string> m_CsvRows;
 
-        static void Main(string[] args)
+        // +++ life cycle +++
+        public CSV_Helper()
         {
-            var CSV_zeilen = @"
+            // Default Content
+            m_CsvRows = @"
 Name;Strasse;Ort;Alter
 Peter Pan;Am Hang 5;12345 Einsam;42
 Maria Schmitz;Kölner Straße 45;50123 Köln;43
 Paul Meier;Münchener Weg 1;87654 München;65
 ".SplitByString(Environment.NewLine);
+        }
 
-            var lines = Tablelize(CSV_zeilen);
+        // +++ ICodingKata Implementation +++
+        public void Execute()
+        {
+            var lines = Tablelize(m_CsvRows);
 
             PrintLines(lines);
-
-            
         }
+
+        // +++ member +++
 
         /// <summary>
         /// Print the lines of an IEnumerable of String.
         /// </summary>
         /// <param name="lines">The lines to Print</param>
-        private static void PrintLines(IEnumerable<string> linesToPrint)
+        private void PrintLines(IEnumerable<string> linesToPrint)
         {
             foreach (var line in linesToPrint)
             {
@@ -43,12 +49,12 @@ Paul Meier;Münchener Weg 1;87654 München;65
         /// </summary>
         /// <param name="csvContent">The csv lines to be padded</param>
         /// <returns>A IEnumerable of strings containing the padded content from the csv lines.</returns>
-        public static IEnumerable<string> Tablelize(IEnumerable<string> csvContent)
+        public IEnumerable<string> Tablelize(IEnumerable<string> csvContent)
         {
             var result = BuildArrayFromCsvLines(csvContent);
 
             var paddedLines = BuildPaddedListFromArrayElements(
-                result.valueArray, 
+                result.valueArray,
                 result.widthArray);
 
             return paddedLines;
@@ -59,7 +65,7 @@ Paul Meier;Münchener Weg 1;87654 München;65
         /// </summary>
         /// <param name="csvLines">The lines with the csv content</param>
         /// <returns>Tuple of values [0] valueArray [1] columnWidthArray</returns>
-        private static (string[,] valueArray, int[] widthArray) BuildArrayFromCsvLines(IEnumerable<string> csvContent)
+        private (string[,] valueArray, int[] widthArray) BuildArrayFromCsvLines(IEnumerable<string> csvContent)
         {
             var csvLines = csvContent.ToArray();
 
@@ -84,7 +90,7 @@ Paul Meier;Münchener Weg 1;87654 München;65
             return (colummnValues, columnWidths);
         }
 
-        private static List<string> BuildPaddedListFromArrayElements(string[,] columnValues, int[] columnWidths)
+        private List<string> BuildPaddedListFromArrayElements(string[,] columnValues, int[] columnWidths)
         {
             List<string> result = new List<string>();
             for (int i = 0; i < columnValues.GetLength(0); i++)

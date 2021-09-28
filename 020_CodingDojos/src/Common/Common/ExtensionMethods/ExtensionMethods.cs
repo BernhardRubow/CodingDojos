@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Dojo_01_CSV
+namespace Common.ExtensionMethods
 {
     public static class ExtensionMethods
     {
