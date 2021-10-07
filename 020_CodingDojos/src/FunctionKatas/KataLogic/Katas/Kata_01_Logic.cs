@@ -5,7 +5,7 @@ using System.Text;
 using Common.ExtensionMethods;
 using KataLogic.Interfaces;
 
-namespace KataLogic.KataLogic
+namespace KataLogic.Katas.CSV
 {
     public  class Kata_01_Logic : ICodingKata
     {

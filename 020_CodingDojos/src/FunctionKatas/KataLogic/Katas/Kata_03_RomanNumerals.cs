@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Common.ExtensionMethods;
 using KataLogic.Interfaces;
 
-namespace KataLogic.KataLogic
+namespace KataLogic.Katas.RomanNumerals
 {
     public class Kata_03_RomanNumerals : ICodingKata
     {

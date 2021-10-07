@@ -1,6 +1,7 @@
 using Common.ExtensionMethods;
 using KataLogic.Interfaces;
-using KataLogic.KataLogic;
+using KataLogic.Katas;
+using KataLogic.Katas.FizzBuzz;
 using NUnit.Framework;
 
 namespace KataLogic_UnitTests

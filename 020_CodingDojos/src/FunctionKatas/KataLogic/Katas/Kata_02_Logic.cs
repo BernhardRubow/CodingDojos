@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using KataLogic.Interfaces;
 
-namespace KataLogic.KataLogic
+namespace KataLogic.Katas.FizzBuzz
 {
     public class Kata_02_Logic : ICodingKata
     {

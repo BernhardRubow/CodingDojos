@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using KataLogic.KataLogic;
+using KataLogic.Katas.Golf;
 using NUnit.Framework;
 
 namespace KataLogic_UnitTests
@@ -33,6 +33,20 @@ namespace KataLogic_UnitTests
             logic.Execute();
 
             Assert.AreEqual("Par", logic.Result);
+        }
+
+        [Test]
+        public void Test_result_is_Loser_with_given_parameters()
+        {
+            var logic = new Kata_04_Golf();
+
+            var p = new Dictionary<string, int>{ {"par",3}, {"strokes",15}};
+
+            logic.SetContent(p);
+
+            logic.Execute();
+
+            Assert.AreEqual("Loser", logic.Result);
         }
 
 

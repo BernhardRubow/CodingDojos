@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using KataLogic.Interfaces;
 
-namespace KataLogic.KataLogic
+namespace KataLogic.Katas.Golf
 {
     public class Kata_04_Golf : ICodingKata
     {
@@ -49,7 +49,7 @@ namespace KataLogic.KataLogic
             doubleBogeyRuleChecker.SetNextRule(bogeyRuleChecker);
             bogeyRuleChecker.SetNextRule(lastRuleChecker);
 
-
+            // execute rule checking
             result = holeInOneRule.CheckRule(data);
         }
     }

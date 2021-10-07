@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KataLogic.Interfaces;
-using KataLogic.KataLogic;
+using KataLogic.Katas;
+using KataLogic.Katas.CSV;
 using NUnit.Framework;
 
 namespace KataLogic_UnitTests
